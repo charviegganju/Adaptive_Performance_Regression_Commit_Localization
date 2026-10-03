@@ -1,0 +1,372 @@
+{
+  "instance_id": "prometheus-4",
+  "good_id": "c2cc42921d465b2b7f5a7eb23c901126b24a5c4a",
+  "bad_id": "baf7a33972f136140172ff8db71b449fed4cc1ad",
+  "culprit_id": "4d4c3b8004251c715d21a235d053d7f45ec91fdc",
+  "culprit_range": [
+    "4d4c3b8004251c715d21a235d053d7f45ec91fdc",
+    "b3b9790d1fe5520c6eebc3a805e9774f4963331a",
+    "baf7a33972f136140172ff8db71b449fed4cc1ad"
+  ],
+  "commits": [
+    {
+      "id": "cc85e9a0a81d96afe6d80d0ba39ad1b347b96b8d",
+      "parent_id": "c2cc42921d465b2b7f5a7eb23c901126b24a5c4a",
+      "author": "Brian Brazil",
+      "timestamp": "2019-09-24T12:43:51+01:00",
+      "message": "Update for 0.7.0",
+      "files": [
+        "README.md"
+      ],
+      "diff": ""
+    },
+    {
+      "id": "ba220f75c8d4ced25b4a18cbb92abb61e6fc626e",
+      "parent_id": "cc85e9a0a81d96afe6d80d0ba39ad1b347b96b8d",
+      "author": "Christophe TARDELLA",
+      "timestamp": "2019-10-07T13:19:28+02:00",
+      "message": "Add a class cast check to avoid ClassCastException (#505)",
+      "files": [
+        "simpleclient_hotspot/src/main/java/io/prometheus/client/hotspot/MemoryAllocationExports.java",
+        "simpleclient_hotspot/src/test/java/io/prometheus/client/hotspot/MemoryAllocationExportsTest.java"
+      ],
+      "diff": "diff --git a/simpleclient_hotspot/src/main/java/io/prometheus/client/hotspot/MemoryAllocationExports.java b/simpleclient_hotspot/src/main/java/io/prometheus/client/hotspot/MemoryAllocationExports.java\nindex afad259..b5a2754 100644\n--- a/simpleclient_hotspot/src/main/java/io/prometheus/client/hotspot/MemoryAllocationExports.java\n+++ b/simpleclient_hotspot/src/main/java/io/prometheus/client/hotspot/MemoryAllocationExports.java\n@@ -25,8 +25,10 @@ public class MemoryAllocationExports extends Collector {\n \n   public MemoryAllocationExports() {\n     AllocationCountingNotificationListener listener = new AllocationCountingNotificationListener(allocatedCounter);\n-    for (GarbageCollectorMXBean garbageCollectorMXBean : ManagementFactory.getGarbageCollectorMXBeans()) {\n-      ((NotificationEmitter) garbageCollectorMXBean).addNotificationListener(listener, null, null);\n+    for (GarbageCollectorMXBean garbageCollectorMXBean : getGarbageCollectorMXBeans()) {\n+      if (garbageCollectorMXBean instanceof NotificationEmitter) {\n+        ((NotificationEmitter) garbageCollectorMXBean).addNotificationListener(listener, null, null);\n+      }\n     }\n   }\n \n@@ -97,4 +99,8 @@ public class MemoryAllocationExports extends Collector {\n       return last == null ? 0 : last;\n     }\n   }\n+\n+  protected List<GarbageCollectorMXBean> getGarbageCollectorMXBeans() {\n+    return ManagementFactory.getGarbageCollectorMXBeans();\n+  }\n }\ndiff --git a/simpleclient_hotspot/src/test/java/io/prometheus/client/hotspot/MemoryAllocationExportsTest.java b/simpleclient_hotspot/src/test/java/io/prometheus/client/hotspot/MemoryAllocationExportsTest.java\nindex 0eb4d38..367b863 100644\n--- a/simpleclient_hotspot/src/test/java/io/prometheus/client/hotspot/MemoryAllocationExportsTest.java\n+++ b/simpleclient_hotspot/src/test/java/io/prometheus/client/hotspot/MemoryAllocationExportsTest.java\n@@ -2,6 +2,13 @@ package io.prometheus.client.hotspot;\n \n import io.prometheus.client.Counter;\n import org.junit.Test;\n+import org."
+    },
+    {
+      "id": "f3f69858f84fb447732bbb33534e54be48f22afc",
+      "parent_id": "ba220f75c8d4ced25b4a18cbb92abb61e6fc626e",
+      "author": "Bj\u00f6rn Rabenstein",
+      "timestamp": "2019-10-14T15:11:18+02:00",
+      "message": "Merge pull request #507 from prometheus/pgw200",
+      "files": [
+        "simpleclient_pushgateway/src/main/java/io/prometheus/client/exporter/PushGateway.java",
+        "simpleclient_pushgateway/src/test/java/io/prometheus/client/exporter/PushGatewayTest.java"
+      ],
+      "diff": "diff --git a/simpleclient_pushgateway/src/main/java/io/prometheus/client/exporter/PushGateway.java b/simpleclient_pushgateway/src/main/java/io/prometheus/client/exporter/PushGateway.java\nindex 161871a..b8a3bbc 100644\n--- a/simpleclient_pushgateway/src/main/java/io/prometheus/client/exporter/PushGateway.java\n+++ b/simpleclient_pushgateway/src/main/java/io/prometheus/client/exporter/PushGateway.java\n@@ -313,10 +313,10 @@ public class PushGateway {\n       }\n \n       int response = connection.getResponseCode();\n-      if (response != HttpURLConnection.HTTP_ACCEPTED) {\n+      if (response/100 != 2) {\n         String errorMessage;\n         InputStream errorStream = connection.getErrorStream();\n-        if(response >= 400 && errorStream != null) {\n+        if(errorStream != null) {\n           String errBody = readFromStream(errorStream);\n           errorMessage = \"Response code from \" + url + \" was \" + response + \", response body: \" + errBody;\n         } else {\ndiff --git a/simpleclient_pushgateway/src/test/java/io/prometheus/client/exporter/PushGatewayTest.java b/simpleclient_pushgateway/src/test/java/io/prometheus/client/exporter/PushGatewayTest.java\nindex e3be4dd..0127f1d 100644\n--- a/simpleclient_pushgateway/src/test/java/io/prometheus/client/exporter/PushGatewayTest.java\n+++ b/simpleclient_pushgateway/src/test/java/io/prometheus/client/exporter/PushGatewayTest.java\n@@ -60,6 +60,16 @@ public class PushGatewayTest {\n     pg.push(registry, \"j\");\n   }\n \n+  @Test\n+  public void testPush200Response() throws IOException {\n+    mockServerClient.when(\n+        request()\n+          .withMethod(\"PUT\")\n+          .withPath(\"/metrics/job/j\")\n+      ).respond(response().withStatusCode(200));\n+    pg.push(registry, \"j\");\n+  }\n+\n   @Test(expected=IOException.class)\n   public void testNon202ResponseThrows() throws IOException {\n     mockServerClient.when(\n"
+    },
+    {
+      "id": "2e002d336f08d22bb17ca9fdaae2fcdd5439e22e",
+      "parent_id": "f3f69858f84fb447732bbb33534e54be48f22afc",
+      "author": "Brian Brazil",
+      "timestamp": "2019-10-23T12:17:02+01:00",
+      "message": "[maven-release-plugin] prepare release parent-0.8.0",
+      "files": [
+        "benchmark/pom.xml",
+        "pom.xml",
+        "simpleclient/pom.xml",
+        "simpleclient_caffeine/pom.xml",
+        "simpleclient_common/pom.xml",
+        "simpleclient_dropwizard/pom.xml",
+        "simpleclient_graphite_bridge/pom.xml",
+        "simpleclient_guava/pom.xml",
+        "simpleclient_hibernate/pom.xml",
+        "simpleclient_hotspot/pom.xml",
+        "simpleclient_httpserver/pom.xml",
+        "simpleclient_jetty/pom.xml",
+        "simpleclient_jetty_jdk8/pom.xml",
+        "simpleclient_log4j/pom.xml",
+        "simpleclient_log4j2/pom.xml",
+        "simpleclient_logback/pom.xml",
+        "simpleclient_pushgateway/pom.xml",
+        "simpleclient_servlet/pom.xml",
+        "simpleclient_spring_boot/pom.xml",
+        "simpleclient_spring_web/pom.xml",
+        "simpleclient_vertx/pom.xml"
+      ],
+      "diff": ""
+    },
+    {
+      "id": "2e250e4efa5f770af9309e9ba6a3db3b4af5368c",
+      "parent_id": "2e002d336f08d22bb17ca9fdaae2fcdd5439e22e",
+      "author": "Brian Brazil",
+      "timestamp": "2019-10-23T12:17:14+01:00",
+      "message": "[maven-release-plugin] prepare for next development iteration",
+      "files": [
+        "benchmark/pom.xml",
+        "pom.xml",
+        "simpleclient/pom.xml",
+        "simpleclient_caffeine/pom.xml",
+        "simpleclient_common/pom.xml",
+        "simpleclient_dropwizard/pom.xml",
+        "simpleclient_graphite_bridge/pom.xml",
+        "simpleclient_guava/pom.xml",
+        "simpleclient_hibernate/pom.xml",
+        "simpleclient_hotspot/pom.xml",
+        "simpleclient_httpserver/pom.xml",
+        "simpleclient_jetty/pom.xml",
+        "simpleclient_jetty_jdk8/pom.xml",
+        "simpleclient_log4j/pom.xml",
+        "simpleclient_log4j2/pom.xml",
+        "simpleclient_logback/pom.xml",
+        "simpleclient_pushgateway/pom.xml",
+        "simpleclient_servlet/pom.xml",
+        "simpleclient_spring_boot/pom.xml",
+        "simpleclient_spring_web/pom.xml",
+        "simpleclient_vertx/pom.xml"
+      ],
+      "diff": ""
+    },
+    {
+      "id": "c33fab09d78d360128ad62e99d1880039e38b604",
+      "parent_id": "2e250e4efa5f770af9309e9ba6a3db3b4af5368c",
+      "author": "Brian Brazil",
+      "timestamp": "2019-10-23T12:57:07+01:00",
+      "message": "Update for 0.8.0",
+      "files": [
+        "README.md"
+      ],
+      "diff": ""
+    },
+    {
+      "id": "b61dd232a504e20dad404a2bf3e2c0b8661c212a",
+      "parent_id": "c33fab09d78d360128ad62e99d1880039e38b604",
+      "author": "Dzmitry Lazerka",
+      "timestamp": "2019-11-14T04:58:07-08:00",
+      "message": "Don't throw NPE if `.help()` wasn't called (#458)",
+      "files": [
+        "simpleclient/src/main/java/io/prometheus/client/SimpleCollector.java"
+      ],
+      "diff": "diff --git a/simpleclient/src/main/java/io/prometheus/client/SimpleCollector.java b/simpleclient/src/main/java/io/prometheus/client/SimpleCollector.java\nindex ed8c5c8..a70d5d4 100644\n--- a/simpleclient/src/main/java/io/prometheus/client/SimpleCollector.java\n+++ b/simpleclient/src/main/java/io/prometheus/client/SimpleCollector.java\n@@ -162,7 +162,7 @@ public abstract class SimpleCollector<Child> extends Collector {\n     }\n     fullname = name;\n     checkMetricName(fullname);\n-    if (b.help.isEmpty()) throw new IllegalStateException(\"Help hasn't been set.\");\n+    if (b.help != null && b.help.isEmpty()) throw new IllegalStateException(\"Help hasn't been set.\");\n     help = b.help;\n     labelNames = Arrays.asList(b.labelNames);\n \n"
+    },
+    {
+      "id": "ef16c43f63128c14627eeff301a32c12e7751a4e",
+      "parent_id": "b61dd232a504e20dad404a2bf3e2c0b8661c212a",
+      "author": "Christian Schlichtherle",
+      "timestamp": "2019-12-05T20:14:02+04:00",
+      "message": "Don't wrap a RuntimeException in another RuntimeException. (#488)",
+      "files": [
+        "simpleclient/src/main/java/io/prometheus/client/Histogram.java",
+        "simpleclient/src/main/java/io/prometheus/client/Summary.java"
+      ],
+      "diff": "diff --git a/simpleclient/src/main/java/io/prometheus/client/Histogram.java b/simpleclient/src/main/java/io/prometheus/client/Histogram.java\nindex 2b28980..1d8b1a2 100644\n--- a/simpleclient/src/main/java/io/prometheus/client/Histogram.java\n+++ b/simpleclient/src/main/java/io/prometheus/client/Histogram.java\n@@ -219,6 +219,8 @@ public class Histogram extends SimpleCollector<Histogram.Child> implements Colle\n \n       try {\n         return timeable.call();\n+      } catch (RuntimeException e) {\n+        throw e;\n       } catch (Exception e) {\n         throw new RuntimeException(e);\n       } finally {\ndiff --git a/simpleclient/src/main/java/io/prometheus/client/Summary.java b/simpleclient/src/main/java/io/prometheus/client/Summary.java\nindex a341f25..4d79e55 100644\n--- a/simpleclient/src/main/java/io/prometheus/client/Summary.java\n+++ b/simpleclient/src/main/java/io/prometheus/client/Summary.java\n@@ -226,6 +226,8 @@ public class Summary extends SimpleCollector<Summary.Child> implements Counter.D\n \n       try {\n         return timeable.call();\n+      } catch (RuntimeException e) {\n+        throw e;\n       } catch (Exception e) {\n         throw new RuntimeException(e);\n       } finally {\n"
+    },
+    {
+      "id": "58ec05265e11793af2c854789a152ce28d62fcba",
+      "parent_id": "ef16c43f63128c14627eeff301a32c12e7751a4e",
+      "author": "Simon Legner",
+      "timestamp": "2020-01-22T00:47:15+01:00",
+      "message": "Fix typo \"Caffiene\" (#521)",
+      "files": [
+        "simpleclient_caffeine/src/main/java/io/prometheus/client/cache/caffeine/CacheMetricsCollector.java"
+      ],
+      "diff": "diff --git a/simpleclient_caffeine/src/main/java/io/prometheus/client/cache/caffeine/CacheMetricsCollector.java b/simpleclient_caffeine/src/main/java/io/prometheus/client/cache/caffeine/CacheMetricsCollector.java\nindex d32ddb4..4b7d32e 100644\n--- a/simpleclient_caffeine/src/main/java/io/prometheus/client/cache/caffeine/CacheMetricsCollector.java\n+++ b/simpleclient_caffeine/src/main/java/io/prometheus/client/cache/caffeine/CacheMetricsCollector.java\n@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentMap;\n \n \n /**\n- * Collect metrics from Caffiene's com.github.benmanes.caffeine.cache.Cache.\n+ * Collect metrics from Caffeine's com.github.benmanes.caffeine.cache.Cache.\n  * <p>\n  * <pre>{@code\n  *\n"
+    },
+    {
+      "id": "49c355753f2a00db7bfc5ceb2cf20f0113b65642",
+      "parent_id": "58ec05265e11793af2c854789a152ce28d62fcba",
+      "author": "Brian Brazil",
+      "timestamp": "2020-01-23T11:34:27Z",
+      "message": "Update to also work on JVM11, use consistent mockito version. (#522)",
+      "files": [
+        "benchmark/pom.xml",
+        "simpleclient_caffeine/pom.xml",
+        "simpleclient_dropwizard/pom.xml",
+        "simpleclient_guava/pom.xml",
+        "simpleclient_hotspot/pom.xml",
+        "simpleclient_log4j/pom.xml",
+        "simpleclient_log4j2/pom.xml",
+        "simpleclient_logback/pom.xml",
+        "simpleclient_pushgateway/pom.xml",
+        "simpleclient_servlet/pom.xml",
+        "simpleclient_servlet/src/test/java/io/prometheus/client/exporter/MetricsServletTest.java"
+      ],
+      "diff": "diff --git a/simpleclient_servlet/src/test/java/io/prometheus/client/exporter/MetricsServletTest.java b/simpleclient_servlet/src/test/java/io/prometheus/client/exporter/MetricsServletTest.java\nindex 78e73e7..43f3c7d 100644\n--- a/simpleclient_servlet/src/test/java/io/prometheus/client/exporter/MetricsServletTest.java\n+++ b/simpleclient_servlet/src/test/java/io/prometheus/client/exporter/MetricsServletTest.java\n@@ -15,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;\n import static org.assertj.core.api.Assertions.assertThatThrownBy;\n import static org.assertj.core.api.Assertions.fail;\n import static org.mockito.Matchers.anyChar;\n+import static org.mockito.Matchers.anyInt;\n import static org.mockito.Mockito.doThrow;\n import static org.mockito.Mockito.mock;\n import static org.mockito.Mockito.verify;\n@@ -63,6 +64,7 @@ public class MetricsServletTest {\n     PrintWriter writer = mock(PrintWriter.class);\n     when(resp.getWriter()).thenReturn(writer);\n     doThrow(new RuntimeException()).when(writer).write(anyChar());\n+    doThrow(new RuntimeException()).when(writer).write(anyInt());\n     CollectorRegistry registry = new CollectorRegistry();\n     Gauge a = Gauge.build(\"a\", \"a help\").register(registry);\n \n"
+    },
+    {
+      "id": "89a69478fa1d3702919858fe57ad812fe3e35506",
+      "parent_id": "49c355753f2a00db7bfc5ceb2cf20f0113b65642",
+      "author": "Brian Brazil",
+      "timestamp": "2020-01-23T11:47:59Z",
+      "message": "Make javadoc work for release on jvm11",
+      "files": [
+        "pom.xml"
+      ],
+      "diff": ""
+    },
+    {
+      "id": "325c332317ef6055326421420f9898daee5345ed",
+      "parent_id": "89a69478fa1d3702919858fe57ad812fe3e35506",
+      "author": "Brian Brazil",
+      "timestamp": "2020-01-23T11:51:46Z",
+      "message": "[maven-release-plugin] prepare release parent-0.8.1",
+      "files": [
+        "benchmark/pom.xml",
+        "pom.xml",
+        "simpleclient/pom.xml",
+        "simpleclient_caffeine/pom.xml",
+        "simpleclient_common/pom.xml",
+        "simpleclient_dropwizard/pom.xml",
+        "simpleclient_graphite_bridge/pom.xml",
+        "simpleclient_guava/pom.xml",
+        "simpleclient_hibernate/pom.xml",
+        "simpleclient_hotspot/pom.xml",
+        "simpleclient_httpserver/pom.xml",
+        "simpleclient_jetty/pom.xml",
+        "simpleclient_jetty_jdk8/pom.xml",
+        "simpleclient_log4j/pom.xml",
+        "simpleclient_log4j2/pom.xml",
+        "simpleclient_logback/pom.xml",
+        "simpleclient_pushgateway/pom.xml",
+        "simpleclient_servlet/pom.xml",
+        "simpleclient_spring_boot/pom.xml",
+        "simpleclient_spring_web/pom.xml",
+        "simpleclient_vertx/pom.xml"
+      ],
+      "diff": ""
+    },
+    {
+      "id": "a859e18fefdf15112bb5aa1468953c7560919052",
+      "parent_id": "325c332317ef6055326421420f9898daee5345ed",
+      "author": "Brian Brazil",
+      "timestamp": "2020-01-23T11:51:54Z",
+      "message": "[maven-release-plugin] prepare for next development iteration",
+      "files": [
+        "benchmark/pom.xml",
+        "pom.xml",
+        "simpleclient/pom.xml",
+        "simpleclient_caffeine/pom.xml",
+        "simpleclient_common/pom.xml",
+        "simpleclient_dropwizard/pom.xml",
+        "simpleclient_graphite_bridge/pom.xml",
+        "simpleclient_guava/pom.xml",
+        "simpleclient_hibernate/pom.xml",
+        "simpleclient_hotspot/pom.xml",
+        "simpleclient_httpserver/pom.xml",
+        "simpleclient_jetty/pom.xml",
+        "simpleclient_jetty_jdk8/pom.xml",
+        "simpleclient_log4j/pom.xml",
+        "simpleclient_log4j2/pom.xml",
+        "simpleclient_logback/pom.xml",
+        "simpleclient_pushgateway/pom.xml",
+        "simpleclient_servlet/pom.xml",
+        "simpleclient_spring_boot/pom.xml",
+        "simpleclient_spring_web/pom.xml",
+        "simpleclient_vertx/pom.xml"
+      ],
+      "diff": ""
+    },
+    {
+      "id": "a814b67a3f5a04771fd4a1ab3c5061849b9537b1",
+      "parent_id": "a859e18fefdf15112bb5aa1468953c7560919052",
+      "author": "Brian Brazil",
+      "timestamp": "2020-01-23T12:07:51Z",
+      "message": "Update for 0.8.1",
+      "files": [
+        "README.md"
+      ],
+      "diff": ""
+    },
+    {
+      "id": "72593071d99924eb9c71eb0e385c78d218fec220",
+      "parent_id": "a814b67a3f5a04771fd4a1ab3c5061849b9537b1",
+      "author": "Max",
+      "timestamp": "2020-02-13T17:55:15+01:00",
+      "message": "Remove the mention of JMX from the included connectors (#527)",
+      "files": [
+        "README.md"
+      ],
+      "diff": ""
+    },
+    {
+      "id": "c3dc1f2506108761414309210c3a98e775e331a4",
+      "parent_id": "72593071d99924eb9c71eb0e385c78d218fec220",
+      "author": "Brajesh Kumar",
+      "timestamp": "2020-02-28T17:11:20Z",
+      "message": "Added health check api to the client. (#534)",
+      "files": [
+        "simpleclient_httpserver/src/main/java/io/prometheus/client/exporter/HTTPServer.java",
+        "simpleclient_httpserver/src/test/java/io/prometheus/client/exporter/TestHTTPServer.java"
+      ],
+      "diff": "diff --git a/simpleclient_httpserver/src/main/java/io/prometheus/client/exporter/HTTPServer.java b/simpleclient_httpserver/src/main/java/io/prometheus/client/exporter/HTTPServer.java\nindex 85eb4e5..2a6c033 100644\n--- a/simpleclient_httpserver/src/main/java/io/prometheus/client/exporter/HTTPServer.java\n+++ b/simpleclient_httpserver/src/main/java/io/prometheus/client/exporter/HTTPServer.java\n@@ -42,9 +42,13 @@ public class HTTPServer {\n         }\n     }\n \n+    /**\n+     * Handles Metrics collections from the given registry.\n+     */\n     static class HTTPMetricHandler implements HttpHandler {\n         private CollectorRegistry registry;\n         private final LocalByteArray response = new LocalByteArray();\n+        private final static String HEALTHY_RESPONSE = \"Exporter is Healthy.\";\n \n         HTTPMetricHandler(CollectorRegistry registry) {\n           this.registry = registry;\n@@ -54,16 +58,21 @@ public class HTTPServer {\n         public void handle(HttpExchange t) throws IOException {\n             String query = t.getRequestURI().getRawQuery();\n \n+            String contextPath = t.getHttpContext().getPath();\n             ByteArrayOutputStream response = this.response.get();\n             response.reset();\n             OutputStreamWriter osw = new OutputStreamWriter(response);\n-            TextFormat.write004(osw,\n-                    registry.filteredMetricFamilySamples(parseQuery(query)));\n+            if (\"/-/healthy\".equals(contextPath)) {\n+                osw.write(HEALTHY_RESPONSE);\n+            } else {\n+                TextFormat.write004(osw,\n+                        registry.filteredMetricFamilySamples(parseQuery(query)));\n+            }\n+\n             osw.flush();\n             osw.close();\n             response.flush();\n             response.close();\n-\n             t.getResponseHeaders().set(\"Content-Type\",\n                     TextFormat.CONTENT_TYPE_004);\n             if (shouldUseCompression(t)) {\n@@ -154,6 +163,7 @@ public class HTTPServer {\n         "
+    },
+    {
+      "id": "ac5136b864d5d90a7ce5e1da0c235da2dcfc18e2",
+      "parent_id": "c3dc1f2506108761414309210c3a98e775e331a4",
+      "author": "Takanori Takase",
+      "timestamp": "2020-03-15T00:30:24+09:00",
+      "message": "Wrap PrintWriter with BufferedWriter (#540)",
+      "files": [
+        "simpleclient_servlet/src/main/java/io/prometheus/client/exporter/MetricsServlet.java",
+        "simpleclient_servlet/src/test/java/io/prometheus/client/exporter/ExampleBenchmark.java",
+        "simpleclient_servlet/src/test/java/io/prometheus/client/exporter/MetricsServletTest.java"
+      ],
+      "diff": "diff --git a/simpleclient_servlet/src/main/java/io/prometheus/client/exporter/MetricsServlet.java b/simpleclient_servlet/src/main/java/io/prometheus/client/exporter/MetricsServlet.java\nindex db579e4..81c5453 100644\n--- a/simpleclient_servlet/src/main/java/io/prometheus/client/exporter/MetricsServlet.java\n+++ b/simpleclient_servlet/src/main/java/io/prometheus/client/exporter/MetricsServlet.java\n@@ -7,6 +7,7 @@ import javax.servlet.ServletException;\n import javax.servlet.http.HttpServlet;\n import javax.servlet.http.HttpServletRequest;\n import javax.servlet.http.HttpServletResponse;\n+import java.io.BufferedWriter;\n import java.io.IOException;\n import java.io.Writer;\n import java.util.Arrays;\n@@ -43,7 +44,7 @@ public class MetricsServlet extends HttpServlet {\n     resp.setStatus(HttpServletResponse.SC_OK);\n     resp.setContentType(TextFormat.CONTENT_TYPE_004);\n \n-    Writer writer = resp.getWriter();\n+    Writer writer = new BufferedWriter(resp.getWriter());\n     try {\n       TextFormat.write004(writer, registry.filteredMetricFamilySamples(parse(req)));\n       writer.flush();\ndiff --git a/simpleclient_servlet/src/test/java/io/prometheus/client/exporter/ExampleBenchmark.java b/simpleclient_servlet/src/test/java/io/prometheus/client/exporter/ExampleBenchmark.java\nnew file mode 100644\nindex 0000000..066da14\n--- /dev/null\n+++ b/simpleclient_servlet/src/test/java/io/prometheus/client/exporter/ExampleBenchmark.java\n@@ -0,0 +1,52 @@\n+package io.prometheus.client.exporter;\n+\n+import io.prometheus.client.Gauge;\n+import org.eclipse.jetty.server.Server;\n+import org.eclipse.jetty.servlet.ServletContextHandler;\n+import org.eclipse.jetty.servlet.ServletHolder;\n+\n+import java.io.InputStream;\n+import java.net.HttpURLConnection;\n+import java.net.URL;\n+import java.util.UUID;\n+\n+public class ExampleBenchmark {\n+\n+    public static void main(String[] args) throws Exception {\n+\n+        Gauge gauge = Gauge.build().name(\"labels\").help(\"foo\").labelNames(\"bar\").register();\n+        for (int i "
+    },
+    {
+      "id": "fe42313813b96dc92cf61f94fcfb79a8157b88a4",
+      "parent_id": "ac5136b864d5d90a7ce5e1da0c235da2dcfc18e2",
+      "author": "Andre Masella",
+      "timestamp": "2020-05-07T08:18:15-04:00",
+      "message": "Remove dependency on sun.misc.Unsafe (#547)",
+      "files": [
+        "simpleclient/src/main/java/io/prometheus/client/Striped64.java"
+      ],
+      "diff": "diff --git a/simpleclient/src/main/java/io/prometheus/client/Striped64.java b/simpleclient/src/main/java/io/prometheus/client/Striped64.java\nindex fa90544..954210b 100644\n--- a/simpleclient/src/main/java/io/prometheus/client/Striped64.java\n+++ b/simpleclient/src/main/java/io/prometheus/client/Striped64.java\n@@ -9,6 +9,8 @@\n package io.prometheus.client;\n \n import java.util.Random;\n+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;\n+import java.util.concurrent.atomic.AtomicLongFieldUpdater;\n \n /**\n  * A package-local class holding common representation and mechanics\n@@ -94,22 +96,10 @@ abstract class Striped64 extends Number {\n         Cell(long x) { value = x; }\n \n         final boolean cas(long cmp, long val) {\n-            return UNSAFE.compareAndSwapLong(this, valueOffset, cmp, val);\n+            return CAS_VALUE.compareAndSet(this, cmp, val);\n         }\n \n-        // Unsafe mechanics\n-        private static final sun.misc.Unsafe UNSAFE;\n-        private static final long valueOffset;\n-        static {\n-            try {\n-                UNSAFE = getUnsafe();\n-                Class<?> ak = Cell.class;\n-                valueOffset = UNSAFE.objectFieldOffset\n-                        (ak.getDeclaredField(\"value\"));\n-            } catch (Exception e) {\n-                throw new Error(e);\n-            }\n-        }\n+        private static final AtomicLongFieldUpdater<Cell> CAS_VALUE = AtomicLongFieldUpdater.newUpdater(Cell.class, \"value\");\n \n     }\n \n@@ -155,14 +145,14 @@ abstract class Striped64 extends Number {\n      * CASes the base field.\n      */\n     final boolean casBase(long cmp, long val) {\n-        return UNSAFE.compareAndSwapLong(this, baseOffset, cmp, val);\n+        return CAS_BASE.compareAndSet(this, cmp, val);\n     }\n \n     /**\n      * CASes the busy field from 0 to 1 to acquire lock.\n      */\n     final boolean casBusy() {\n-        return UNSAFE.compareAndSwapInt(this, busyOffset, 0, 1);\n+        return CAS_BUSY.compareAndSet(this, 0, 1);\n  "
+    },
+    {
+      "id": "4d4c3b8004251c715d21a235d053d7f45ec91fdc",
+      "parent_id": "fe42313813b96dc92cf61f94fcfb79a8157b88a4",
+      "author": "Brian Brazil",
+      "timestamp": "",
+      "message": "Add label for logs",
+      "files": [
+        "simpleclient/src/main/java/io/prometheus/client/Summary.java"
+      ],
+      "diff": "diff --git a/simpleclient/src/main/java/io/prometheus/client/Summary.java b/simpleclient/src/main/java/io/prometheus/client/Summary.java\n@@ public ... observe(...) {\n+        String label = String.format(\"%s-%d\", getClass().getSimpleName(), System.nanoTime());\n"
+    },
+    {
+      "id": "b3b9790d1fe5520c6eebc3a805e9774f4963331a",
+      "parent_id": "4d4c3b8004251c715d21a235d053d7f45ec91fdc",
+      "author": "Mariano Gonzalez",
+      "timestamp": "2020-05-08T23:55:50-05:00",
+      "message": "Bump up caffeine dependencies (#549)",
+      "files": [
+        "simpleclient_caffeine/pom.xml",
+        "simpleclient_caffeine/src/main/java/io/prometheus/client/cache/caffeine/CacheMetricsCollector.java"
+      ],
+      "diff": "diff --git a/simpleclient_caffeine/src/main/java/io/prometheus/client/cache/caffeine/CacheMetricsCollector.java b/simpleclient_caffeine/src/main/java/io/prometheus/client/cache/caffeine/CacheMetricsCollector.java\nindex 4b7d32e..bc48dd8 100644\n--- a/simpleclient_caffeine/src/main/java/io/prometheus/client/cache/caffeine/CacheMetricsCollector.java\n+++ b/simpleclient_caffeine/src/main/java/io/prometheus/client/cache/caffeine/CacheMetricsCollector.java\n@@ -1,6 +1,6 @@\n package io.prometheus.client.cache.caffeine;\n \n-import com.github.benmanes.caffeine.cache.AsyncLoadingCache;\n+import com.github.benmanes.caffeine.cache.AsyncCache;\n import com.github.benmanes.caffeine.cache.Cache;\n import com.github.benmanes.caffeine.cache.LoadingCache;\n import com.github.benmanes.caffeine.cache.stats.CacheStats;\n@@ -72,7 +72,7 @@ public class CacheMetricsCollector extends Collector {\n      * @param cacheName The name of the cache, will be the metrics label value\n      * @param cache The cache being monitored\n      */\n-    public void addCache(String cacheName, AsyncLoadingCache cache) {\n+    public void addCache(String cacheName, AsyncCache cache) {\n         children.put(cacheName, cache.synchronous());\n     }\n \n"
+    },
+    {
+      "id": "baf7a33972f136140172ff8db71b449fed4cc1ad",
+      "parent_id": "b3b9790d1fe5520c6eebc3a805e9774f4963331a",
+      "author": "Brian Brazil",
+      "timestamp": "2020-05-11T12:06:11+01:00",
+      "message": "[maven-release-plugin] prepare release parent-0.9.0",
+      "files": [
+        "benchmark/pom.xml",
+        "pom.xml",
+        "simpleclient/pom.xml",
+        "simpleclient_caffeine/pom.xml",
+        "simpleclient_common/pom.xml",
+        "simpleclient_dropwizard/pom.xml",
+        "simpleclient_graphite_bridge/pom.xml",
+        "simpleclient_guava/pom.xml",
+        "simpleclient_hibernate/pom.xml",
+        "simpleclient_hotspot/pom.xml",
+        "simpleclient_httpserver/pom.xml",
+        "simpleclient_jetty/pom.xml",
+        "simpleclient_jetty_jdk8/pom.xml",
+        "simpleclient_log4j/pom.xml",
+        "simpleclient_log4j2/pom.xml",
+        "simpleclient_logback/pom.xml",
+        "simpleclient_pushgateway/pom.xml",
+        "simpleclient_servlet/pom.xml",
+        "simpleclient_spring_boot/pom.xml",
+        "simpleclient_spring_web/pom.xml",
+        "simpleclient_vertx/pom.xml"
+      ],
+      "diff": ""
+    }
+  ],
+  "benchmark_context": {
+    "project": "prometheus",
+    "benchmark": "prometheus__client_java#io.prometheus.benchmark.SummaryBenchmark.prometheusSimpleSummaryChildBenchmark#.json",
+    "observed_slowdown": 0.3019
+  },
+  "meta": {
+    "noise": "real, from ICPE 2023 JMH dataset",
+    "effect": "injected and replayed (real samples x (1 + delta)), not measured live",
+    "delta": 0.3,
+    "culprit_position": 19
+  }
+}

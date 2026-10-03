@@ -1,0 +1,329 @@
+{
+  "instance_id": "HdrHistogram-4",
+  "good_id": "6ad8c1a3926a5948203a6f694788d4de9c57b346",
+  "bad_id": "2b35e19cb387625f2cbf420c9f12829b44e4fe94",
+  "culprit_id": "d123f7c1b7a1267e9a1e00365cbaa49628489240",
+  "culprit_range": [
+    "d123f7c1b7a1267e9a1e00365cbaa49628489240",
+    "fe288b16baaabca43d0503a7a558696b1013cea6",
+    "7ebdb5e8ef3ff93a3ada16e053748babfc2d18e1",
+    "e1c1d608fc185fac1f7c42412f4321cacb7993cb",
+    "a93501bad5ff55e71ffba3547af1501f022dd975",
+    "ce038909a2766273bd60d5ef586f52c1849ede09",
+    "c0069c610ef4a2c17f82f7c1f48c4da557c395d6",
+    "ad5a4419aa6cbbcd87f5c1ff733c017010b55e3d",
+    "4e1de59b919e7cb743e6805a4f89e7aedba73847",
+    "e175a5eb694bddea4890d760ded46dca76b17f9f",
+    "a4501f52d2360614fec0c3901afc3b5948f04b56",
+    "fc67936d4e4c166c95d2cac08c2516928a01814a",
+    "8ccc467ebc11335c654ec54e1c25b664ab0099ef",
+    "deed2b8367af0e84a8acdaf8bfc880d170c0e6c8",
+    "cd209063eaef052571b1cc3ac5c9d42580d096ec",
+    "af23c9150c49937f2c180d270d5476b3ed61f8a3",
+    "2b35e19cb387625f2cbf420c9f12829b44e4fe94"
+  ],
+  "commits": [
+    {
+      "id": "9440264aab7b2722fa941ea1139fd06d4a214ac9",
+      "parent_id": "6ad8c1a3926a5948203a6f694788d4de9c57b346",
+      "author": "Gil Tene",
+      "timestamp": "2019-09-22T21:19:47-07:00",
+      "message": "Update maven.yml to [atomatically] use latest updates in each java version",
+      "files": [
+        ".github/workflows/maven.yml"
+      ],
+      "diff": ""
+    },
+    {
+      "id": "0b51b0532c33bc4f3cca8e3cc6bb0a0bf3b65b68",
+      "parent_id": "9440264aab7b2722fa941ea1139fd06d4a214ac9",
+      "author": "Gil Tene",
+      "timestamp": "2019-09-25T08:48:31-07:00",
+      "message": "Update maven.yml",
+      "files": [
+        ".github/workflows/maven.yml"
+      ],
+      "diff": ""
+    },
+    {
+      "id": "532194f05c76fe576b82e6fbf2a7718888cb23f7",
+      "parent_id": "0b51b0532c33bc4f3cca8e3cc6bb0a0bf3b65b68",
+      "author": "Gil Tene",
+      "timestamp": "2019-10-01T23:26:57-07:00",
+      "message": "Comment touchups",
+      "files": [
+        "src/main/java/org/HdrHistogram/AbstractHistogram.java"
+      ],
+      "diff": "diff --git a/src/main/java/org/HdrHistogram/AbstractHistogram.java b/src/main/java/org/HdrHistogram/AbstractHistogram.java\nindex a02674a..7a8103a 100644\n--- a/src/main/java/org/HdrHistogram/AbstractHistogram.java\n+++ b/src/main/java/org/HdrHistogram/AbstractHistogram.java\n@@ -1706,41 +1706,40 @@ public abstract class AbstractHistogram extends AbstractHistogramBase implements\n         }\n     }\n \n-\n-    /**\n-     * Produce textual representation of the value distribution of histogram data by percentile. The distribution is\n-     * output with exponentially increasing resolution, with each exponentially decreasing half-distance containing\n-     * five (5) percentile reporting tick points.\n-     *\n-     * @param printStream    Stream into which the distribution will be output\n-     * <p>\n-     * @param outputValueUnitScalingRatio    The scaling factor by which to divide histogram recorded values units in\n-     *                                     output\n-     */\n-    public void outputPercentileDistribution(final PrintStream printStream,\n-                                             final Double outputValueUnitScalingRatio) {\n-        outputPercentileDistribution(printStream, 5, outputValueUnitScalingRatio);\n-    }\n-\n     //   ########  ######## ########   ######  ######## ##    ## ######## #### ##       ########\n     //   ##     ## ##       ##     ## ##    ## ##       ###   ##    ##     ##  ##       ##\n     //   ##     ## ##       ##     ## ##       ##       ####  ##    ##     ##  ##       ##\n     //   ########  ######   ########  ##       ######   ## ## ##    ##     ##  ##       ######\n     //   ##        ##       ##   ##   ##       ##       ##  ####    ##     ##  ##       ##\n     //   ##        ##       ##    ##  ##    ## ##       ##   ###    ##     ##  ##       ##\n-    //   ##        ######## ##     ##  ######  ######## ##    ##    ##    #### ######## ######## \n+    //   ##        ######## ##     ##  ######  ######## ##    ##    ##    #### ######## ########\n     //"
+    },
+    {
+      "id": "52ef7ff855fffccd5b090eb954b9ffca17178a92",
+      "parent_id": "532194f05c76fe576b82e6fbf2a7718888cb23f7",
+      "author": "Gil Tene",
+      "timestamp": "2019-10-01T23:36:47-07:00",
+      "message": "Fix javadoc warning",
+      "files": [
+        "src/main/java/org/HdrHistogram/AtomicHistogram.java",
+        "src/main/java/org/HdrHistogram/ConcurrentHistogram.java",
+        "src/main/java/org/HdrHistogram/DoubleHistogram.java",
+        "src/main/java/org/HdrHistogram/Histogram.java",
+        "src/main/java/org/HdrHistogram/IntCountsHistogram.java",
+        "src/main/java/org/HdrHistogram/ShortCountsHistogram.java",
+        "src/main/java/org/HdrHistogram/SynchronizedHistogram.java"
+      ],
+      "diff": "diff --git a/src/main/java/org/HdrHistogram/AtomicHistogram.java b/src/main/java/org/HdrHistogram/AtomicHistogram.java\nindex 1d3a338..146e985 100644\n--- a/src/main/java/org/HdrHistogram/AtomicHistogram.java\n+++ b/src/main/java/org/HdrHistogram/AtomicHistogram.java\n@@ -232,7 +232,7 @@ public class AtomicHistogram extends Histogram {\n      *\n      * @param base64CompressedHistogramString A string containing a base64 encoding of a compressed histogram\n      * @return A AtomicHistogram decoded from the string\n-     * @throws DataFormatException\n+     * @throws DataFormatException on error parsing/decompressing the input\n      */\n     public static AtomicHistogram fromString(final String base64CompressedHistogramString)\n             throws DataFormatException {\ndiff --git a/src/main/java/org/HdrHistogram/ConcurrentHistogram.java b/src/main/java/org/HdrHistogram/ConcurrentHistogram.java\nindex f361aae..e0f3d72 100644\n--- a/src/main/java/org/HdrHistogram/ConcurrentHistogram.java\n+++ b/src/main/java/org/HdrHistogram/ConcurrentHistogram.java\n@@ -580,7 +580,7 @@ public class ConcurrentHistogram extends Histogram {\n      *\n      * @param base64CompressedHistogramString A string containing a base64 encoding of a compressed histogram\n      * @return A ConcurrentHistogram decoded from the string\n-     * @throws DataFormatException\n+     * @throws DataFormatException on error parsing/decompressing the input\n      */\n     public static ConcurrentHistogram fromString(final String base64CompressedHistogramString)\n             throws DataFormatException {\ndiff --git a/src/main/java/org/HdrHistogram/DoubleHistogram.java b/src/main/java/org/HdrHistogram/DoubleHistogram.java\nindex 482fc1e..7476ff6 100644\n--- a/src/main/java/org/HdrHistogram/DoubleHistogram.java\n+++ b/src/main/java/org/HdrHistogram/DoubleHistogram.java\n@@ -1639,7 +1639,7 @@ public class DoubleHistogram extends EncodableHistogram implements DoubleValueRe\n      *\n      * @param base64CompressedHistogramString A string contai"
+    },
+    {
+      "id": "d123f7c1b7a1267e9a1e00365cbaa49628489240",
+      "parent_id": "52ef7ff855fffccd5b090eb954b9ffca17178a92",
+      "author": "Gil Tene",
+      "timestamp": "",
+      "message": "Add label for logs",
+      "files": [
+        "src/main/java/org/HdrHistogram/AbstractHistogram.java"
+      ],
+      "diff": "diff --git a/src/main/java/org/HdrHistogram/AbstractHistogram.java b/src/main/java/org/HdrHistogram/AbstractHistogram.java\n@@ public ... encodeIntoCompressedByteBuffer(...) {\n+        String label = String.format(\"%s-%d\", getClass().getSimpleName(), System.nanoTime());\n"
+    },
+    {
+      "id": "fe288b16baaabca43d0503a7a558696b1013cea6",
+      "parent_id": "d123f7c1b7a1267e9a1e00365cbaa49628489240",
+      "author": "Gil Tene",
+      "timestamp": "2019-11-04T01:28:11-08:00",
+      "message": "Introduce packed histogram variants (#162)",
+      "files": [
+        ".github/workflows/maven.yml",
+        "pom.xml",
+        "src/main/java/org/HdrHistogram/AbstractHistogram.java",
+        "src/main/java/org/HdrHistogram/AbstractHistogramIterator.java",
+        "src/main/java/org/HdrHistogram/Base64Helper.java",
+        "src/main/java/org/HdrHistogram/ConcurrentDoubleHistogram.java",
+        "src/main/java/org/HdrHistogram/ConcurrentHistogram.java",
+        "src/main/java/org/HdrHistogram/DoubleHistogram.java",
+        "src/main/java/org/HdrHistogram/DoubleRecorder.java",
+        "src/main/java/org/HdrHistogram/PackedConcurrentDoubleHistogram.java",
+        "src/main/java/org/HdrHistogram/PackedConcurrentHistogram.java",
+        "src/main/java/org/HdrHistogram/PackedDoubleHistogram.java",
+        "src/main/java/org/HdrHistogram/PackedHistogram.java",
+        "src/main/java/org/HdrHistogram/Recorder.java",
+        "src/main/java/org/HdrHistogram/SingleWriterDoubleRecorder.java",
+        "src/main/java/org/HdrHistogram/SingleWriterRecorder.java",
+        "src/main/java/org/HdrHistogram/WriterReaderPhaser.java",
+        "src/main/java/org/HdrHistogram/packedarray/AbstractPackedArrayContext.java",
+        "src/main/java/org/HdrHistogram/packedarray/AbstractPackedLongArray.java",
+        "src/main/java/org/HdrHistogram/packedarray/ConcurrentPackedArrayContext.java",
+        "src/main/java/org/HdrHistogram/packedarray/ConcurrentPackedLongArray.java",
+        "src/main/java/org/HdrHistogram/packedarray/IterationValue.java",
+        "src/main/java/org/HdrHistogram/packedarray/PackedArrayContext.java",
+        "src/main/java/org/HdrHistogram/packedarray/PackedLongArray.java",
+        "src/main/java/org/HdrHistogram/packedarray/ResizeException.java",
+        "src/perf/java/org/HdrHistogram/HistogramPerfTest.java",
+        "src/test/java/org/HdrHistogram/ConcurrentHistogramTest.java",
+        "src/test/java/org/HdrHistogram/DoubleHistogramDataAccessTest.java",
+        "src/test/java/org/HdrHistogram/DoubleHistogramTest.java",
+        "src/test/java/org/HdrHistogram/DumpHistogram.java",
+        "src/test/java/org/HdrHistogram/HistogramAutosizingTest.java",
+        "src/test/java/org/HdrHistogram/HistogramDataAccessTest.java",
+        "src/test/java/org/HdrHistogram/HistogramEncodingTest.java",
+        "src/test/java/org/HdrHistogram/HistogramLogReaderWriterTest.java",
+        "src/test/java/org/HdrHistogram/HistogramShiftTest.java",
+        "src/test/java/org/HdrHistogram/HistogramTest.java",
+        "src/test/java/org/HdrHistogram/HistogramTestUtils.java",
+        "src/test/java/org/HdrHistogram/RecorderTest.java"
+      ],
+      "diff": "diff --git a/src/main/java/org/HdrHistogram/AbstractHistogram.java b/src/main/java/org/HdrHistogram/AbstractHistogram.java\nindex 7a8103a..fb181d2 100644\n--- a/src/main/java/org/HdrHistogram/AbstractHistogram.java\n+++ b/src/main/java/org/HdrHistogram/AbstractHistogram.java\n@@ -2317,6 +2317,29 @@ public abstract class AbstractHistogram extends AbstractHistogramBase implements\n     // Internal helper methods:\n     //\n \n+    private String recordedValuesToString() {\n+        String output = \"\";\n+        try {\n+            for (int i = 0; i < countsArrayLength; i++) {\n+                if (getCountAtIndex(i) != 0) {\n+                    output += String.format(\"[%d] : %d\\n\", i, getCountAtIndex(i));\n+                }\n+            }\n+            return output;\n+        } catch(Exception ex) {\n+            output += \"!!! Exception thown in value iteration...\\n\";\n+        }\n+        return output;\n+    }\n+\n+    @Override\n+    public String toString() {\n+        String output = \"AbstractHistogram:\\n\";\n+        output += super.toString();\n+        output += recordedValuesToString();\n+        return output;\n+    }\n+\n     void establishInternalTackingValues() {\n         establishInternalTackingValues(countsArrayLength);\n     }\ndiff --git a/src/main/java/org/HdrHistogram/AbstractHistogramIterator.java b/src/main/java/org/HdrHistogram/AbstractHistogramIterator.java\nindex 771094d..59d4261 100644\n--- a/src/main/java/org/HdrHistogram/AbstractHistogramIterator.java\n+++ b/src/main/java/org/HdrHistogram/AbstractHistogramIterator.java\n@@ -9,6 +9,7 @@ package org.HdrHistogram;\n \n import java.util.ConcurrentModificationException;\n import java.util.Iterator;\n+import java.util.NoSuchElementException;\n \n /**\n  * Used for iterating through histogram values.\n@@ -103,7 +104,7 @@ abstract class AbstractHistogramIterator implements Iterator<HistogramIterationV\n             (totalCountToCurrentIndex > arrayTotalCount)) {\n             throw new ConcurrentModificationException();\n         }\n-        "
+    },
+    {
+      "id": "7ebdb5e8ef3ff93a3ada16e053748babfc2d18e1",
+      "parent_id": "fe288b16baaabca43d0503a7a558696b1013cea6",
+      "author": "Gil Tene",
+      "timestamp": "2019-11-04T01:56:00-08:00",
+      "message": "Replace deprecated JUnit methods",
+      "files": [
+        "src/test/java/org/HdrHistogram/HistogramLogReaderWriterTest.java"
+      ],
+      "diff": "diff --git a/src/test/java/org/HdrHistogram/HistogramLogReaderWriterTest.java b/src/test/java/org/HdrHistogram/HistogramLogReaderWriterTest.java\nindex 64c0642..58dc45d 100644\n--- a/src/test/java/org/HdrHistogram/HistogramLogReaderWriterTest.java\n+++ b/src/test/java/org/HdrHistogram/HistogramLogReaderWriterTest.java\n@@ -1,6 +1,6 @@\n package org.HdrHistogram;\n \n-import junit.framework.Assert;\n+import org.junit.Assert;\n import org.junit.jupiter.api.Test;\n \n import java.io.File;\n@@ -27,7 +27,7 @@ public class HistogramLogReaderWriterTest {\n         HistogramLogReader reader = new HistogramLogReader(readerStream);\n         EncodableHistogram histogram = reader.nextIntervalHistogram();\n         Assert.assertNull(histogram);\n-        Assert.assertEquals(1.0, reader.getStartTimeSec());\n+        Assert.assertEquals(1.0, reader.getStartTimeSec(), 0.000001);\n     }\n \n     @Test\n@@ -75,7 +75,7 @@ public class HistogramLogReaderWriterTest {\n         Assert.assertEquals(48761, totalCount);\n         Assert.assertEquals(1745879039, accumulatedHistogram.getValueAtPercentile(99.9));\n         Assert.assertEquals(1796210687, accumulatedHistogram.getMaxValue());\n-        Assert.assertEquals(1441812279.474, reader.getStartTimeSec());\n+        Assert.assertEquals(1441812279.474, reader.getStartTimeSec(), 0.000001);\n \n         readerStream = HistogramLogReaderWriterTest.class.getResourceAsStream(\"jHiccup-2.0.7S.logV2.hlog\");\n         reader = new HistogramLogReader(readerStream);\n@@ -129,7 +129,7 @@ public class HistogramLogReaderWriterTest {\n         Assert.assertEquals(65964, totalCount);\n         Assert.assertEquals(1829765119, accumulatedHistogram.getValueAtPercentile(99.9));\n         Assert.assertEquals(1888485375, accumulatedHistogram.getMaxValue());\n-        Assert.assertEquals(1438867590.285, reader.getStartTimeSec());\n+        Assert.assertEquals(1438867590.285, reader.getStartTimeSec(), 0.000001);\n \n         readerStream = HistogramLogReaderWriterTest.class.getResourceAsStream(\"j"
+    },
+    {
+      "id": "e1c1d608fc185fac1f7c42412f4321cacb7993cb",
+      "parent_id": "7ebdb5e8ef3ff93a3ada16e053748babfc2d18e1",
+      "author": "Gil Tene",
+      "timestamp": "2019-11-04T15:36:08-08:00",
+      "message": "Change class hierarchy, make ConcurrentPackedLongArray a subclass of PackedLongArray",
+      "files": [
+        "src/main/java/org/HdrHistogram/packedarray/AbstractPackedArrayContext.java",
+        "src/main/java/org/HdrHistogram/packedarray/AbstractPackedLongArray.java",
+        "src/main/java/org/HdrHistogram/packedarray/ConcurrentPackedArrayContext.java",
+        "src/main/java/org/HdrHistogram/packedarray/ConcurrentPackedLongArray.java",
+        "src/main/java/org/HdrHistogram/packedarray/PackedArrayContext.java",
+        "src/main/java/org/HdrHistogram/packedarray/PackedLongArray.java"
+      ],
+      "diff": "diff --git a/src/main/java/org/HdrHistogram/packedarray/AbstractPackedArrayContext.java b/src/main/java/org/HdrHistogram/packedarray/AbstractPackedArrayContext.java\nindex 9132ce1..c58a97c 100644\n--- a/src/main/java/org/HdrHistogram/packedarray/AbstractPackedArrayContext.java\n+++ b/src/main/java/org/HdrHistogram/packedarray/AbstractPackedArrayContext.java\n@@ -145,10 +145,15 @@ abstract class AbstractPackedArrayContext implements Serializable {\n     static final int MINIMUM_INITIAL_PACKED_ARRAY_CAPACITY = 16;\n     static final int MAX_SUPPORTED_PACKED_COUNTS_ARRAY_LENGTH = (Short.MAX_VALUE / 4);\n \n+    private final boolean isPacked;\n+    private int physicalLength;\n     private int virtualLength = 0;\n     private int topLevelShift = Integer.MAX_VALUE; // Make it non-sensical until properly initialized.\n \n-    AbstractPackedArrayContext() {}\n+    AbstractPackedArrayContext(final int initialPhysicalLength) {\n+        physicalLength = Math.max(initialPhysicalLength, MINIMUM_INITIAL_PACKED_ARRAY_CAPACITY);\n+        isPacked = (physicalLength <= AbstractPackedArrayContext.MAX_SUPPORTED_PACKED_COUNTS_ARRAY_LENGTH);\n+    }\n \n     void init(final int virtualLength) {\n         if (!isPacked()) {\n@@ -196,8 +201,6 @@ abstract class AbstractPackedArrayContext implements Serializable {\n \n     abstract void resizeArray(int newLength);\n \n-    abstract boolean isPacked();\n-\n     abstract long getAtUnpackedIndex(int index);\n \n     abstract void setAtUnpackedIndex(int index, long newValue);\n@@ -938,6 +941,14 @@ abstract class AbstractPackedArrayContext implements Serializable {\n     //   ######  #### ######## ########     ####  ##     ######  ##     ## #### ##          ##\n     //\n \n+    boolean isPacked() {\n+        return isPacked;\n+    }\n+\n+    int getPhysicalLength() {\n+        return physicalLength;\n+    }\n+\n     int getVirtualLength() {\n         return virtualLength;\n     }\ndiff --git a/src/main/java/org/HdrHistogram/packedarray/AbstractPackedLongArray.java b/src/main/java/org/Hd"
+    },
+    {
+      "id": "a93501bad5ff55e71ffba3547af1501f022dd975",
+      "parent_id": "e1c1d608fc185fac1f7c42412f4321cacb7993cb",
+      "author": "Gil Tene",
+      "timestamp": "2019-11-04T15:47:13-08:00",
+      "message": "Make optional packed recorder constructor public",
+      "files": [
+        "src/main/java/org/HdrHistogram/Recorder.java"
+      ],
+      "diff": "diff --git a/src/main/java/org/HdrHistogram/Recorder.java b/src/main/java/org/HdrHistogram/Recorder.java\nindex 6acad43..1125d7d 100644\n--- a/src/main/java/org/HdrHistogram/Recorder.java\n+++ b/src/main/java/org/HdrHistogram/Recorder.java\n@@ -64,7 +64,7 @@ public class Recorder implements ValueRecorder {\n      *                                       and separation. Must be a non-negative integer between 0 and 5.\n      * @param packed Specifies whether the recorder will uses a packed internal representation or not.\n      */\n-    Recorder(final int numberOfSignificantValueDigits, boolean packed) {\n+    public Recorder(final int numberOfSignificantValueDigits, boolean packed) {\n         activeHistogram = packed ?\n                 new InternalPackedConcurrentHistogram(instanceId, numberOfSignificantValueDigits) :\n                 new InternalConcurrentHistogram(instanceId, numberOfSignificantValueDigits);\n"
+    },
+    {
+      "id": "ce038909a2766273bd60d5ef586f52c1849ede09",
+      "parent_id": "a93501bad5ff55e71ffba3547af1501f022dd975",
+      "author": "Gil Tene",
+      "timestamp": "2019-11-05T20:04:54-08:00",
+      "message": "Add start and end timestamp tagging for packed arrays. Useful in interval recording scenarios.",
+      "files": [
+        "src/main/java/org/HdrHistogram/packedarray/AbstractPackedLongArray.java"
+      ],
+      "diff": "diff --git a/src/main/java/org/HdrHistogram/packedarray/AbstractPackedLongArray.java b/src/main/java/org/HdrHistogram/packedarray/AbstractPackedLongArray.java\nindex a617e11..15f1e44 100644\n--- a/src/main/java/org/HdrHistogram/packedarray/AbstractPackedLongArray.java\n+++ b/src/main/java/org/HdrHistogram/packedarray/AbstractPackedLongArray.java\n@@ -20,6 +20,8 @@ abstract class AbstractPackedLongArray implements Iterable<Long>, Serializable {\n     private static final int NUMBER_OF_SETS = 8;\n \n     private AbstractPackedArrayContext arrayContext;\n+    private long startTimeStampMsec = Long.MAX_VALUE;\n+    private long endTimeStampMsec = 0;\n \n     AbstractPackedArrayContext getArrayContext() {\n         return arrayContext;\n@@ -29,6 +31,38 @@ abstract class AbstractPackedLongArray implements Iterable<Long>, Serializable {\n         arrayContext = newArrayContext;\n     }\n \n+    /**\n+     * get the start time stamp [optionally] stored with this array\n+     * @return the start time stamp [optionally] stored with this array\n+     */\n+    public long getStartTimeStamp() {\n+        return startTimeStampMsec;\n+    }\n+\n+    /**\n+     * Set the start time stamp value associated with this array to a given value.\n+     * @param timeStampMsec the value to set the time stamp to, [by convention] in msec since the epoch.\n+     */\n+    public void setStartTimeStamp(final long timeStampMsec) {\n+        this.startTimeStampMsec = timeStampMsec;\n+    }\n+\n+    /**\n+     * get the end time stamp [optionally] stored with this array\n+     * @return the end time stamp [optionally] stored with this array\n+     */\n+    public long getEndTimeStamp() {\n+        return endTimeStampMsec;\n+    }\n+\n+    /**\n+     * Set the end time stamp value associated with this array to a given value.\n+     * @param timeStampMsec the value to set the time stamp to, [by convention] in msec since the epoch.\n+     */\n+    public void setEndTimeStamp(final long timeStampMsec) {\n+        this.endTimeStampMsec = timeStampMs"
+    },
+    {
+      "id": "c0069c610ef4a2c17f82f7c1f48c4da557c395d6",
+      "parent_id": "ce038909a2766273bd60d5ef586f52c1849ede09",
+      "author": "Gil Tene",
+      "timestamp": "2019-11-05T20:05:07-08:00",
+      "message": "Merge remote-tracking branch 'origin/master'",
+      "files": [
+        ".github/workflows/maven.yml"
+      ],
+      "diff": ""
+    },
+    {
+      "id": "ad5a4419aa6cbbcd87f5c1ff733c017010b55e3d",
+      "parent_id": "c0069c610ef4a2c17f82f7c1f48c4da557c395d6",
+      "author": "Gil Tene",
+      "timestamp": "2019-11-06T06:22:54-08:00",
+      "message": "Fix unpacked modes, add equals, prepare for Recorder use cases.",
+      "files": [
+        "src/main/java/org/HdrHistogram/packedarray/AbstractPackedArrayContext.java",
+        "src/main/java/org/HdrHistogram/packedarray/AbstractPackedLongArray.java",
+        "src/main/java/org/HdrHistogram/packedarray/ConcurrentPackedArrayContext.java",
+        "src/main/java/org/HdrHistogram/packedarray/ConcurrentPackedLongArray.java",
+        "src/main/java/org/HdrHistogram/packedarray/IterationValue.java",
+        "src/main/java/org/HdrHistogram/packedarray/PackedArrayContext.java",
+        "src/main/java/org/HdrHistogram/packedarray/PackedLongArray.java"
+      ],
+      "diff": "diff --git a/src/main/java/org/HdrHistogram/packedarray/AbstractPackedArrayContext.java b/src/main/java/org/HdrHistogram/packedarray/AbstractPackedArrayContext.java\nindex c58a97c..9517d55 100644\n--- a/src/main/java/org/HdrHistogram/packedarray/AbstractPackedArrayContext.java\n+++ b/src/main/java/org/HdrHistogram/packedarray/AbstractPackedArrayContext.java\n@@ -150,9 +150,12 @@ abstract class AbstractPackedArrayContext implements Serializable {\n     private int virtualLength = 0;\n     private int topLevelShift = Integer.MAX_VALUE; // Make it non-sensical until properly initialized.\n \n-    AbstractPackedArrayContext(final int initialPhysicalLength) {\n+    AbstractPackedArrayContext(final int virtualLength, final int initialPhysicalLength) {\n         physicalLength = Math.max(initialPhysicalLength, MINIMUM_INITIAL_PACKED_ARRAY_CAPACITY);\n         isPacked = (physicalLength <= AbstractPackedArrayContext.MAX_SUPPORTED_PACKED_COUNTS_ARRAY_LENGTH);\n+        if (!isPacked) {\n+            physicalLength = virtualLength;\n+        }\n     }\n \n     void init(final int virtualLength) {\n@@ -182,16 +185,16 @@ abstract class AbstractPackedArrayContext implements Serializable {\n     //  ##     ## ########   ######     ##    ##     ## ##     ##  ######     ##     ######\n     //\n \n-    \n+\n     abstract int length();\n \n     abstract int getPopulatedShortLength();\n \n-    abstract boolean casPopulatedShortLength(final int expectedPopulatedShortLength, final int newPopulatedShortLength);\n+    abstract boolean casPopulatedShortLength(int expectedPopulatedShortLength, int newPopulatedShortLength);\n \n-    abstract boolean casPopulatedLongLength(final int expectedPopulatedShortLength, final int newPopulatedShortLength);\n+    abstract boolean casPopulatedLongLength(int expectedPopulatedShortLength, int newPopulatedShortLength);\n \n-    abstract long getAtLongIndex(final int longIndex);\n+    abstract long getAtLongIndex(int longIndex);\n \n     abstract boolean casAtLongIndex(int longIndex, long expe"
+    },
+    {
+      "id": "4e1de59b919e7cb743e6805a4f89e7aedba73847",
+      "parent_id": "ad5a4419aa6cbbcd87f5c1ff733c017010b55e3d",
+      "author": "Gil Tene",
+      "timestamp": "2019-11-06T06:24:43-08:00",
+      "message": "Add PackedArrayRecorder and associated tests.",
+      "files": [
+        "src/main/java/org/HdrHistogram/packedarray/PackedArrayRecorder.java",
+        "src/test/java/org/HdrHistogram/RecorderTest.java"
+      ],
+      "diff": "diff --git a/src/main/java/org/HdrHistogram/packedarray/PackedArrayRecorder.java b/src/main/java/org/HdrHistogram/packedarray/PackedArrayRecorder.java\nnew file mode 100644\nindex 0000000..0f6c9ad\n--- /dev/null\n+++ b/src/main/java/org/HdrHistogram/packedarray/PackedArrayRecorder.java\n@@ -0,0 +1,293 @@\n+/**\n+ * Written by Gil Tene of Azul Systems, and released to the public domain,\n+ * as explained at http://creativecommons.org/publicdomain/zero/1.0/\n+ *\n+ * @author Gil Tene\n+ */\n+\n+package org.HdrHistogram.packedarray;\n+\n+import org.HdrHistogram.*;\n+\n+import java.util.concurrent.atomic.AtomicLong;\n+\n+/**\n+ * Records adds and increment of integer values at indexes of a logical array of 64 bit signed integer values, and\n+ * provides stable interval {@link PackedLongArray} samples from live recorded data without interrupting or stalling\n+ * active recording of values. Each interval array provided contains all values accumulated since the previous\n+ * interval array was taken.\n+ * <p>\n+ * This pattern is commonly used in logging interval accumulator information while recording is ongoing.\n+ * <p>\n+ * {@link PackedArrayRecorder} supports concurrent\n+ * {@link PackedArrayRecorder#increment(int)} or\n+ * {@link PackedArrayRecorder#add(int, long)} calls.\n+ * Recording calls are \"low wait\", or \"wait less\": They are wait\n+ * <p>\n+ * A common pattern for using a {@link PackedArrayRecorder} looks like this:\n+ * <br><pre><code>\n+ * Recorder recorder = new PackedArrayRecorder(); //\n+ * PackedLongArray intervalArray = null;\n+ * ...\n+ * [start of some loop construct that periodically wants to grab an interval array]\n+ *   ...\n+ *   // Get interval array, recycling previous interval array:\n+ *   intervalArray = recorder.getIntervalArray(intervalArray);\n+ *   // Process the interval array, which is nice and stable here:\n+ *   myLogWriter.logArrayContents(intervalArray);\n+ *   ...\n+ * [end of loop construct]\n+ * </code></pre>\n+ *\n+ */\n+\n+public class PackedArrayRecorder {\n+    private st"
+    },
+    {
+      "id": "e175a5eb694bddea4890d760ded46dca76b17f9f",
+      "parent_id": "4e1de59b919e7cb743e6805a4f89e7aedba73847",
+      "author": "Gil Tene",
+      "timestamp": "2019-11-07T10:41:16-08:00",
+      "message": "Add hashCode, touchup comments",
+      "files": [
+        "src/main/java/org/HdrHistogram/packedarray/AbstractPackedLongArray.java",
+        "src/main/java/org/HdrHistogram/packedarray/ConcurrentPackedLongArray.java"
+      ],
+      "diff": "diff --git a/src/main/java/org/HdrHistogram/packedarray/AbstractPackedLongArray.java b/src/main/java/org/HdrHistogram/packedarray/AbstractPackedLongArray.java\nindex bcff3c9..cefd89e 100644\n--- a/src/main/java/org/HdrHistogram/packedarray/AbstractPackedLongArray.java\n+++ b/src/main/java/org/HdrHistogram/packedarray/AbstractPackedLongArray.java\n@@ -374,4 +374,33 @@ abstract class AbstractPackedLongArray implements Iterable<Long>, Serializable {\n         }\n         return true;\n     }\n+\n+    static final int NUMBER_OF_NON_ZEROS_TO_HASH = 8;\n+\n+    @Override\n+    public int hashCode() {\n+        int h = 0;\n+        h = oneAtATimeHashStep(h, length());\n+        int count = 0;\n+        // Include the first NUMBER_OF_NON_ZEROS_TO_HASH non-zeros in the hash:\n+        for (IterationValue v : nonZeroValues()) {\n+            if (++count > NUMBER_OF_NON_ZEROS_TO_HASH) {\n+                break;\n+            }\n+            h = oneAtATimeHashStep(h, (int) v.getIndex());\n+            h = oneAtATimeHashStep(h, (int) v.getValue());\n+        }\n+        h += (h << 3);\n+        h ^= (h >> 11);\n+        h += (h << 15);\n+        return h;\n+    }\n+\n+    private int oneAtATimeHashStep(final int incomingHash, final int v) {\n+        int h = incomingHash;\n+        h += v;\n+        h += (h << 10);\n+        h ^= (h >> 6);\n+        return h;\n+    }\n }\ndiff --git a/src/main/java/org/HdrHistogram/packedarray/ConcurrentPackedLongArray.java b/src/main/java/org/HdrHistogram/packedarray/ConcurrentPackedLongArray.java\nindex c1d5599..dafe19d 100644\n--- a/src/main/java/org/HdrHistogram/packedarray/ConcurrentPackedLongArray.java\n+++ b/src/main/java/org/HdrHistogram/packedarray/ConcurrentPackedLongArray.java\n@@ -6,15 +6,20 @@ import java.io.IOException;\n import java.io.ObjectInputStream;\n \n /**\n- * A Packed array of signed 64 bit values, and supports {@link #get get()}, {@link #set set()},\n- * {@link #add add()} and {@link #increment increment()} operations on the logical contents of the array.\n+ * A Packe"
+    },
+    {
+      "id": "a4501f52d2360614fec0c3901afc3b5948f04b56",
+      "parent_id": "e175a5eb694bddea4890d760ded46dca76b17f9f",
+      "author": "Gil Tene",
+      "timestamp": "2019-11-07T10:50:57-08:00",
+      "message": "touchup comments",
+      "files": [
+        "src/main/java/org/HdrHistogram/packedarray/PackedArrayRecorder.java"
+      ],
+      "diff": "diff --git a/src/main/java/org/HdrHistogram/packedarray/PackedArrayRecorder.java b/src/main/java/org/HdrHistogram/packedarray/PackedArrayRecorder.java\nindex 0f6c9ad..d253857 100644\n--- a/src/main/java/org/HdrHistogram/packedarray/PackedArrayRecorder.java\n+++ b/src/main/java/org/HdrHistogram/packedarray/PackedArrayRecorder.java\n@@ -12,17 +12,21 @@ import org.HdrHistogram.*;\n import java.util.concurrent.atomic.AtomicLong;\n \n /**\n- * Records adds and increment of integer values at indexes of a logical array of 64 bit signed integer values, and\n+ * Records increments and adds of integer values at indexes of a logical array of 64 bit signed integer values, and\n  * provides stable interval {@link PackedLongArray} samples from live recorded data without interrupting or stalling\n  * active recording of values. Each interval array provided contains all values accumulated since the previous\n  * interval array was taken.\n  * <p>\n  * This pattern is commonly used in logging interval accumulator information while recording is ongoing.\n  * <p>\n- * {@link PackedArrayRecorder} supports concurrent\n- * {@link PackedArrayRecorder#increment(int)} or\n+ * {@link PackedArrayRecorder} supports fully concurrent\n+ * {@link PackedArrayRecorder#increment(int)} and\n  * {@link PackedArrayRecorder#add(int, long)} calls.\n- * Recording calls are \"low wait\", or \"wait less\": They are wait\n+ * While the {@link #increment increment()} and {@link #add add()} methods are not quite wait-free, they\n+ * come \"close\" to that behvaior in the sense that a given thread will incur a total of no more than a capped\n+ * fixed number (e.g. 74 in a current implementation) of non-wait-free add or increment operations during\n+ * the lifetime of an interval array (including across recycling of that array across intervals within the\n+ * same recorder), regradless of the number of operations done.\n  * <p>\n  * A common pattern for using a {@link PackedArrayRecorder} looks like this:\n  * <br><pre><code>\n"
+    },
+    {
+      "id": "fc67936d4e4c166c95d2cac08c2516928a01814a",
+      "parent_id": "a4501f52d2360614fec0c3901afc3b5948f04b56",
+      "author": "Gil Tene",
+      "timestamp": "2019-11-08T10:48:49-08:00",
+      "message": "Fix lgtm warnings",
+      "files": [
+        "GoogleChartsExample/index.html"
+      ],
+      "diff": ""
+    },
+    {
+      "id": "8ccc467ebc11335c654ec54e1c25b664ab0099ef",
+      "parent_id": "fc67936d4e4c166c95d2cac08c2516928a01814a",
+      "author": "Gil Tene",
+      "timestamp": "2019-11-08T10:52:29-08:00",
+      "message": "fix lgtm warnings",
+      "files": [
+        "GoogleChartsExample/plotFiles.html"
+      ],
+      "diff": ""
+    },
+    {
+      "id": "deed2b8367af0e84a8acdaf8bfc880d170c0e6c8",
+      "parent_id": "8ccc467ebc11335c654ec54e1c25b664ab0099ef",
+      "author": "Gil Tene",
+      "timestamp": "2019-12-10T13:51:20+10:00",
+      "message": "packed array recorder updates",
+      "files": [
+        "src/main/java/org/HdrHistogram/packedarray/PackedArrayRecorder.java",
+        "src/main/java/org/HdrHistogram/packedarray/PackedArraySingleWriterRecorder.java"
+      ],
+      "diff": "diff --git a/src/main/java/org/HdrHistogram/packedarray/PackedArrayRecorder.java b/src/main/java/org/HdrHistogram/packedarray/PackedArrayRecorder.java\nindex d253857..35d495f 100644\n--- a/src/main/java/org/HdrHistogram/packedarray/PackedArrayRecorder.java\n+++ b/src/main/java/org/HdrHistogram/packedarray/PackedArrayRecorder.java\n@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicLong;\n  * <p>\n  * A common pattern for using a {@link PackedArrayRecorder} looks like this:\n  * <br><pre><code>\n- * Recorder recorder = new PackedArrayRecorder(); //\n+ * PackedArrayRecorder recorder = new PackedArrayRecorder(); //\n  * PackedLongArray intervalArray = null;\n  * ...\n  * [start of some loop construct that periodically wants to grab an interval array]\n@@ -227,7 +227,6 @@ public class PackedArrayRecorder {\n         try {\n             recordingPhaser.readerLock();\n \n-\n             // Make sure we have an inactive version to flip in:\n             if (inactiveArray == null) {\n                 if (activeArray instanceof InternalConcurrentPackedLongArray) {\ndiff --git a/src/main/java/org/HdrHistogram/packedarray/PackedArraySingleWriterRecorder.java b/src/main/java/org/HdrHistogram/packedarray/PackedArraySingleWriterRecorder.java\nnew file mode 100644\nindex 0000000..3c2faa7\n--- /dev/null\n+++ b/src/main/java/org/HdrHistogram/packedarray/PackedArraySingleWriterRecorder.java\n@@ -0,0 +1,298 @@\n+/**\n+ * Written by Gil Tene of Azul Systems, and released to the public domain,\n+ * as explained at http://creativecommons.org/publicdomain/zero/1.0/\n+ *\n+ * @author Gil Tene\n+ */\n+\n+package org.HdrHistogram.packedarray;\n+\n+import org.HdrHistogram.SingleWriterRecorder;\n+import org.HdrHistogram.WriterReaderPhaser;\n+\n+import java.util.concurrent.atomic.AtomicLong;\n+\n+/**\n+ * Records increments and adds of integer values at indexes of a logical array of 64 bit signed integer values, and\n+ * provides stable interval {@link PackedLongArray} samples from live recorded data without interrupting or stal"
+    },
+    {
+      "id": "cd209063eaef052571b1cc3ac5c9d42580d096ec",
+      "parent_id": "deed2b8367af0e84a8acdaf8bfc880d170c0e6c8",
+      "author": "Gil Tene",
+      "timestamp": "2019-12-10T13:52:20+10:00",
+      "message": "Merge remote-tracking branch 'origin/master'",
+      "files": [
+        ".github/workflows/maven.yml",
+        "GoogleChartsExample/index.html",
+        "GoogleChartsExample/plotFiles.html",
+        "README.md"
+      ],
+      "diff": ""
+    },
+    {
+      "id": "af23c9150c49937f2c180d270d5476b3ed61f8a3",
+      "parent_id": "cd209063eaef052571b1cc3ac5c9d42580d096ec",
+      "author": "Gil Tene",
+      "timestamp": "2019-12-10T23:16:47+11:00",
+      "message": "cleanup pom",
+      "files": [
+        "pom.xml"
+      ],
+      "diff": ""
+    },
+    {
+      "id": "2b35e19cb387625f2cbf420c9f12829b44e4fe94",
+      "parent_id": "af23c9150c49937f2c180d270d5476b3ed61f8a3",
+      "author": "Gil Tene",
+      "timestamp": "2019-12-10T23:30:22+11:00",
+      "message": "Release 2.1.12",
+      "files": [
+        "pom.xml"
+      ],
+      "diff": ""
+    }
+  ],
+  "benchmark_context": {
+    "project": "HdrHistogram",
+    "benchmark": "HdrHistogram__HdrHistogram#bench.HdrHistogramEncodingBench.encodeIntoCompressedByteBuffer#latencySeriesName=case3&numberOfSignificantValueDigits=3.json",
+    "observed_slowdown": 0.2983
+  },
+  "meta": {
+    "noise": "real, from ICPE 2023 JMH dataset",
+    "effect": "injected and replayed (real samples x (1 + delta)), not measured live",
+    "delta": 0.3,
+    "culprit_position": 5
+  }
+}

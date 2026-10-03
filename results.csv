@@ -1,0 +1,41 @@
+instance,delta,method,correct,executions
+HdrHistogram-1,0.02,"Linear scan, 10 runs",True,220
+HdrHistogram-1,0.02,"Bisection, 10 runs",True,60
+HdrHistogram-1,0.02,Bisection + SPRT,True,18
+HdrHistogram-1,0.02,Keyword ranker + SPRT,True,34
+HdrHistogram-1,0.02,Hybrid retrieval + SPRT (ours),True,13
+HdrHistogram-2,0.05,"Linear scan, 10 runs",True,130
+HdrHistogram-2,0.05,"Bisection, 10 runs",True,50
+HdrHistogram-2,0.05,Bisection + SPRT,True,15
+HdrHistogram-2,0.05,Keyword ranker + SPRT,True,25
+HdrHistogram-2,0.05,Hybrid retrieval + SPRT (ours),True,9
+HdrHistogram-3,0.1,"Linear scan, 10 runs",True,210
+HdrHistogram-3,0.1,"Bisection, 10 runs",True,60
+HdrHistogram-3,0.1,Bisection + SPRT,True,18
+HdrHistogram-3,0.1,Keyword ranker + SPRT,True,9
+HdrHistogram-3,0.1,Hybrid retrieval + SPRT (ours),True,9
+HdrHistogram-4,0.3,"Linear scan, 10 runs",True,60
+HdrHistogram-4,0.3,"Bisection, 10 runs",True,60
+HdrHistogram-4,0.3,Bisection + SPRT,True,18
+HdrHistogram-4,0.3,Keyword ranker + SPRT,True,12
+HdrHistogram-4,0.3,Hybrid retrieval + SPRT (ours),True,9
+prometheus-1,0.02,"Linear scan, 10 runs",True,120
+prometheus-1,0.02,"Bisection, 10 runs",True,50
+prometheus-1,0.02,Bisection + SPRT,True,21
+prometheus-1,0.02,Keyword ranker + SPRT,True,15
+prometheus-1,0.02,Hybrid retrieval + SPRT (ours),True,30
+prometheus-2,0.05,"Linear scan, 10 runs",True,140
+prometheus-2,0.05,"Bisection, 10 runs",True,50
+prometheus-2,0.05,Bisection + SPRT,True,15
+prometheus-2,0.05,Keyword ranker + SPRT,True,9
+prometheus-2,0.05,Hybrid retrieval + SPRT (ours),True,18
+prometheus-3,0.1,"Linear scan, 10 runs",True,120
+prometheus-3,0.1,"Bisection, 10 runs",True,50
+prometheus-3,0.1,Bisection + SPRT,True,15
+prometheus-3,0.1,Keyword ranker + SPRT,True,9
+prometheus-3,0.1,Hybrid retrieval + SPRT (ours),True,18
+prometheus-4,0.3,"Linear scan, 10 runs",True,200
+prometheus-4,0.3,"Bisection, 10 runs",True,50
+prometheus-4,0.3,Bisection + SPRT,True,15
+prometheus-4,0.3,Keyword ranker + SPRT,True,9
+prometheus-4,0.3,Hybrid retrieval + SPRT (ours),True,15
